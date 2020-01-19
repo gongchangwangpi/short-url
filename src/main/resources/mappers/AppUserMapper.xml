@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.shorturl.mapper.AppUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zb.shorturl.entity.AppUser">
+        <id column="id" property="id" />
+        <result column="app_key" property="appKey" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, app_key, status, create_time
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into t_app_user
+        (
+            app_key,
+            status,
+            create_time
+        )
+        values
+        (
+            #{appKey},
+            #{status},
+            #{createTime}
+        )
+    </insert>
+
+    <update id="update" >
+        update t_app_user
+        <set>
+            <if test="appKey != null">
+                app_key = #{appKey},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectByAppKey" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from t_app_user
+        where app_key = #{appKey}
+    </select>
+
+</mapper>

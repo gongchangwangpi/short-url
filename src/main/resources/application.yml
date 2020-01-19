@@ -1,0 +1,21 @@
+server:
+  port: 9099
+
+spring:
+  application:
+    name: short-url
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/short_url?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+short-url:
+  cache-minutes: 7200
+  server-path: http://127.0.0.1:9099/s/
+
+mybatis:
+  mapper-locations: classpath*:mappers/*.xml

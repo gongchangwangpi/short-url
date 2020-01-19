@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.shorturl.mapper.ShortUrlAccessLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zb.shorturl.entity.ShortUrlAccessLog">
+        <id column="id" property="id" />
+        <result column="short_url" property="shortUrl" />
+        <result column="access_ip" property="accessIp" />
+        <result column="access_time" property="accessTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, short_url, access_ip, access_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into t_short_url_access_log
+        (
+            short_url,
+            access_ip,
+            access_time
+        )
+        values
+        (
+            #{shortUrl},
+            #{accessIp},
+            #{accessTime}
+        )
+    </insert>
+
+</mapper>
