@@ -35,7 +35,7 @@ public class ShortUrlController {
     @GetMapping(value = "/short")
     public ResultDTO shortUrl(String longUrl, @RequestHeader(value = "appKey") String appKey) {
         UrlUtil.verifyUrl(longUrl);
-        if (appUserService.verifyUser(appKey)) {
+        if (appUserService.verifyAppKey(appKey)) {
             return ResultDTO.success(shortUrlService.getShortUrl(longUrl, appKey));
         }
         throw new PermissionException("invalid app key");
@@ -50,7 +50,7 @@ public class ShortUrlController {
      */
     @GetMapping(value = "/long")
     public ResultDTO longUrl(String shortUrl, @RequestHeader(value = "appKey") String appKey) {
-        if (appUserService.verifyUser(appKey)) {
+        if (appUserService.verifyAppKey(appKey)) {
             return ResultDTO.success(shortUrlService.getLongUrl(shortUrl));
         }
         throw new PermissionException("invalid app key");

@@ -6,6 +6,13 @@ package com.zb.shorturl.service;
  */
 public interface AppUserService {
 
-    boolean verifyUser(String appKey);
+    /**
+     * when the app key is valid, return {@code true},
+     * otherwise return {@code false}
+     *
+     * @param appKey
+     * @return
+     */
+    boolean verifyAppKey(String appKey);
 
 }
