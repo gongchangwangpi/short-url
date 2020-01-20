@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 19/01/2020 18:01:49
+ Date: 20/01/2020 14:02:32
 */
 
 SET NAMES utf8mb4;
@@ -36,10 +36,10 @@ CREATE TABLE `t_app_user` (
 DROP TABLE IF EXISTS `t_short_url`;
 CREATE TABLE `t_short_url` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `short_url` varchar(10) COLLATE utf8mb4_general_ci NOT NULL COMMENT '短连接',
+  `short_url` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '短连接',
   `long_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '长连接',
   `create_time` timestamp NOT NULL COMMENT '创建时间',
-  `app_key` varchar(16) COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
+  `app_key` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_short_url` (`short_url`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='短链接表';
@@ -55,9 +55,20 @@ CREATE TABLE `t_short_url_access_log` (
   `access_time` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '访问时间',
   PRIMARY KEY (`id`),
   KEY `ix_short_url` (`short_url`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='短链接访问日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='短链接访问日志表';
+
+-- ----------------------------
+-- Table structure for t_short_url_num
+-- ----------------------------
+DROP TABLE IF EXISTS `t_short_url_num`;
+CREATE TABLE `t_short_url_num` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `biz_type` varchar(8) COLLATE utf8mb4_general_ci NOT NULL COMMENT '业务类型',
+  `num` bigint(20) unsigned NOT NULL DEFAULT '1' COMMENT '当前号码',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='短链接号码表';
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- 插入测试用户
+-- init test app key
 INSERT INTO `short_url`.`t_app_user`(`id`, `app_key`, `status`, `create_time`) VALUES (1, 'app-test', 1, '2020-01-19 17:22:15');
