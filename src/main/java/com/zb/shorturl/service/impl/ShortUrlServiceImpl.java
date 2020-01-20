@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
@@ -37,6 +39,7 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String getShortUrl(String longUrl, String appKey) {
         String shortUrl = ShortUrlUtil.shortUrl(shortUrlNumService.getCurrentNum());
         shortUrlMapper.insert(buildEntity(shortUrl, longUrl, appKey));

@@ -6,6 +6,11 @@ package com.zb.shorturl.service;
  */
 public interface ShortUrlNumService {
 
+    /**
+     * get short url num
+     *
+     * @return
+     */
     long getCurrentNum();
 
 }
