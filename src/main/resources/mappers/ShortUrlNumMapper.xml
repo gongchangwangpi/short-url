@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.shorturl.mapper.ShortUrlNumMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zb.shorturl.entity.ShortUrlNum">
+        <id column="id" property="id" />
+        <result column="biz_type" property="bizType" />
+        <result column="num" property="num" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, biz_type, num
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into t_short_url_num
+        (
+            biz_type,
+            num
+        )
+        values
+        (
+            #{bizType},
+            #{num}
+        )
+    </insert>
+
+    <update id="update" >
+        update t_short_url_num
+        <set>
+            <if test="deltaNum != null">
+                num = num + #{deltaNum}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="selectNum" resultType="long">
+        select num
+        from t_short_url_num
+        where id = #{id}
+    </select>
+</mapper>

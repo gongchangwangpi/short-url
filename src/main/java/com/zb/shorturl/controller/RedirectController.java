@@ -4,15 +4,18 @@ import com.zb.shorturl.service.ShortUrlAccessLogService;
 import com.zb.shorturl.service.ShortUrlService;
 import com.zb.shorturl.utils.RequestUtil;
 import com.zb.shorturl.utils.ShortUrlUtil;
+import org.apache.catalina.util.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * @author zhangbo
@@ -28,7 +31,7 @@ public class RedirectController {
     private ShortUrlAccessLogService shortUrlAccessLogService;
 
     /**
-     * 短链接跳转
+     * redirect the short url to original long url
      *
      * @param shortUrl
      * @param request
@@ -41,9 +44,10 @@ public class RedirectController {
                          HttpServletResponse response) throws IOException {
         shortUrlAccessLogService.saveAccessLog(shortUrl, RequestUtil.getClientIp(request));
         String longUrl = shortUrlService.getLongUrl(shortUrl);
-        if (ShortUrlUtil.EMPTY_SHORT_URL.equalsIgnoreCase(longUrl)) {
+        if (StringUtils.isEmpty(longUrl) || ShortUrlUtil.EMPTY_SHORT_URL.equalsIgnoreCase(longUrl)) {
             response.setStatus(HttpStatus.NOT_FOUND.value());
         } else {
+            longUrl = URLEncoder.DEFAULT.encode(longUrl, Charset.forName("UTF-8"));
             response.sendRedirect(longUrl);
         }
     }

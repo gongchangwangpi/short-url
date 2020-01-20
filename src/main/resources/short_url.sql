@@ -39,7 +39,7 @@ CREATE TABLE `t_short_url` (
   `short_url` varchar(10) COLLATE utf8mb4_general_ci NOT NULL COMMENT '短连接',
   `long_url` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '长连接',
   `create_time` timestamp NOT NULL COMMENT '创建时间',
-  `creator_id` varchar(16) COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人ID',
+  `app_key` varchar(16) COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_short_url` (`short_url`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='短链接表';

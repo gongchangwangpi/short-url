@@ -6,8 +6,21 @@ package com.zb.shorturl.service;
  */
 public interface ShortUrlService {
 
-    String getShortUrl(String longUrl, String creatorId);
+    /**
+     * generate short url for long url
+     *
+     * @param longUrl
+     * @param appKey
+     * @return
+     */
+    String getShortUrl(String longUrl, String appKey);
 
+    /**
+     * query original long url by short url
+     *
+     * @param shortUrl
+     * @return
+     */
     String getLongUrl(String shortUrl);
 
 }

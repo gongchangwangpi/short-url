@@ -28,6 +28,12 @@ public class GlobalExceptionHandler {
         return ResultDTO.fail(HttpStatus.FORBIDDEN.value(), "invalid app key");
     }
 
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResultDTO handle(IllegalArgumentException e) {
+        log.error("IllegalArgumentException: {}", e.getMessage());
+        return ResultDTO.fail(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
+
     @ExceptionHandler(value = Exception.class)
     public ResultDTO handle(Exception e) {
         log.error("Exception", e);

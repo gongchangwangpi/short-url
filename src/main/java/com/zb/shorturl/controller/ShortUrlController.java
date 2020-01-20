@@ -4,6 +4,7 @@ import com.zb.shorturl.dto.ResultDTO;
 import com.zb.shorturl.exception.PermissionException;
 import com.zb.shorturl.service.AppUserService;
 import com.zb.shorturl.service.ShortUrlService;
+import com.zb.shorturl.utils.UrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -25,7 +26,7 @@ public class ShortUrlController {
     private AppUserService appUserService;
 
     /**
-     * 生成短链接
+     * generate a short url for long url
      *
      * @param longUrl
      * @param appKey
@@ -33,6 +34,7 @@ public class ShortUrlController {
      */
     @GetMapping(value = "/short")
     public ResultDTO shortUrl(String longUrl, @RequestHeader(value = "appKey") String appKey) {
+        UrlUtil.verifyUrl(longUrl);
         if (appUserService.verifyUser(appKey)) {
             return ResultDTO.success(shortUrlService.getShortUrl(longUrl, appKey));
         }
@@ -40,7 +42,7 @@ public class ShortUrlController {
     }
 
     /**
-     * 查询长链接
+     * query original long url by short url
      *
      * @param shortUrl
      * @param appKey

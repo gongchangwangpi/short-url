@@ -8,12 +8,12 @@
         <result column="short_url" property="shortUrl" />
         <result column="long_url" property="longUrl" />
         <result column="create_time" property="createTime" />
-        <result column="creator_id" property="creatorId" />
+        <result column="app_key" property="appKey" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, short_url, long_url, create_time, creator_id
+        id, short_url, long_url, create_time, app_key
     </sql>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
@@ -22,14 +22,14 @@
             short_url,
             long_url,
             create_time,
-            creator_id
+            app_key
         )
         values
         (
             #{shortUrl},
             #{longUrl},
             #{createTime},
-            #{creatorId}
+            #{appKey}
         )
     </insert>
 

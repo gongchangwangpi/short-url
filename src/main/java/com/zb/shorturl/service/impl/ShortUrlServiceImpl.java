@@ -2,16 +2,15 @@ package com.zb.shorturl.service.impl;
 
 import com.zb.shorturl.entity.ShortUrl;
 import com.zb.shorturl.mapper.ShortUrlMapper;
+import com.zb.shorturl.service.ShortUrlNumService;
 import com.zb.shorturl.service.ShortUrlService;
 import com.zb.shorturl.utils.ShortUrlUtil;
-import org.apache.catalina.util.URLEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -32,13 +31,15 @@ public class ShortUrlServiceImpl implements ShortUrlService {
     private ShortUrlMapper shortUrlMapper;
 
     @Autowired
+    private ShortUrlNumService shortUrlNumService;
+
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public String getShortUrl(String longUrl, String creatorId) {
-        String shortUrl = ShortUrlUtil.shortUrl();
-        longUrl = URLEncoder.DEFAULT.encode(longUrl, Charset.forName("UTF-8"));
-        shortUrlMapper.insert(buildEntity(shortUrl, longUrl, creatorId));
+    public String getShortUrl(String longUrl, String appKey) {
+        String shortUrl = ShortUrlUtil.shortUrl(shortUrlNumService.getCurrentNum());
+        shortUrlMapper.insert(buildEntity(shortUrl, longUrl, appKey));
         stringRedisTemplate.boundValueOps(getKey(shortUrl)).set(longUrl, Duration.ofMinutes(cacheMinutes));
         return serverPath + shortUrl;
     }
@@ -47,11 +48,11 @@ public class ShortUrlServiceImpl implements ShortUrlService {
         return ShortUrlUtil.SHORT_URL_PRE + shortUrl;
     }
 
-    private ShortUrl buildEntity(String shortUrl, String longUrl, String creatorId) {
+    private ShortUrl buildEntity(String shortUrl, String longUrl, String appKey) {
         ShortUrl entity = new ShortUrl();
         entity.setShortUrl(shortUrl);
         entity.setLongUrl(longUrl);
-        entity.setCreatorId(creatorId);
+        entity.setAppKey(appKey);
         entity.setCreateTime(LocalDateTime.now());
         return entity;
     }
