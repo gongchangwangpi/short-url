@@ -23,6 +23,7 @@ Use MacBook Pro 2014, i5 CPU 8G Memory, startup 3 short-url instance with defaul
 The Tests set 64 threads runs 50000 counts of HTTP client.
 The total cost time below:  
 |-use time-|-total req-| 
+| ----- | ----- |  
 | 289877| 50000 | 
 | 249930| 50000 | 
 | 211518| 50000 | 
