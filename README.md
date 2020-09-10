@@ -1,5 +1,5 @@
 # short-url
-generate short url, and redirect.
+convert a long url to short, and redirect.
 
 # generate a short url for long url
 ## URL
